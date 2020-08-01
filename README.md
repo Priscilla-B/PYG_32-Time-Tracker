@@ -5,7 +5,7 @@ The user can also choose to enter the time he/she started and ended a project th
 The program then calculates the time the user spent on the project and returns the amount the user has earned working on the project. 
 The project includes a csv file that contains test data collected on the program input and outputs.
 
-To access and contribute to the project, please fork the project to your git hub repository, make the changes and create a pull request.
+To access and contribute to the project, fork the project to your git hub repository, make the changes and create a pull request.
 
 
 File: time_tracker.py
