@@ -9,10 +9,13 @@ The program inputs and outputs are initially saved in a dictionary and finally s
 """
 import time
 import csv
+from datetime import time as tt
+
 # todo: include in readme that csv file should not be open in excel while running the code
 # todo: include in readme that this program requires a python ide or text editor or the python idle to run
 # todo: when entering date, make date project starts optional
 # todo: include a welcome message
+# todo: add that modules are inbuilt and do not need to be downloaded to run the program
 
 PAY_PER_HOUR = 5  # constant(in dollars)
 
@@ -31,15 +34,16 @@ def get_data(data):
         within that time.
     """
     # welcome message
-print("-----------------------------------\nWelcome to the PYG-32 Time Tracker\n-----------------------------------")
-name = input("Enter your name: ")
-print("Hello "+name+" Are you working on a new project or do you want to calculate how much you earned on an old project?")
-project_type = input("Enter 'new' for new project and 'old' for old project ")
-   
-    if project_type == "Yes":
+    print("----------------------------------\nWelcome to the PYG-32 Time Tracker\n----------------------------------\n")
+    name = input("Enter your name: ")
+    print("\nHello "+name+", are you working on a new project or do you want to know your earnings on an old project?")
+    project_type = input("Enter 'new' for new project and 'old' for old project: ")
+
+    if project_type == "new":
+        data["Project_Type"] = "New Project"
         project_name = input("What is the name of your project?")
         data["Project_Name"] = project_name  # append project name to dictionary
-        start_time = input("\nEnter 'Start' to begin time tracker")
+        start_time = input("\nEnter 'Start' to begin time tracker: ")
 
         while start_time != "Start":  # ensures program doesn't break if user doesn't enter the 'Start'correctly
             start_time = input("Remember, 'Start' is case-sensitive")
@@ -50,7 +54,7 @@ project_type = input("Enter 'new' for new project and 'old' for old project ")
 
         print("\nWaiting to finish project....\n")
 
-        stop_time = input("Enter 'Stop' to stop time tracker")
+        stop_time = input("Enter 'Stop' to stop time tracker:")
         while stop_time != "Stop":  # ensures program doesn't break if user doesn't enter the 'Stop'correctly
             stop_time = input("Remember, 'Stop' is case-sensitive")
         stop_time = time.time()
@@ -58,35 +62,46 @@ project_type = input("Enter 'new' for new project and 'old' for old project ")
         print("\nYou finished your project at " + str(stop_time_date_format))
         data["Stop_Time"] = time.ctime(stop_time)  # append time stopped to dictionary
 
-    if project_type == "No":
+        # divides time spent(in secs) by number of secs in in hour to get hour equivalent
+        time_spent = round((stop_time - start_time) / 3600, 2)
+        print("\nAwesome! You spent " + str(time_spent) + " hours on the project")  # tells user time spent in hours
+        data["Time_Spent(hours)"] = time_spent  # append time spent to dictionary
+
+        # calculating amount earned on project
+        amount_earned = PAY_PER_HOUR * time_spent
+        print("\nCongratulations! You earned $" + str(amount_earned) + " in " + str(time_spent) + " hours.")
+        data["Amount_Earned($)"] = amount_earned  # append amount earned to dictionary
+        return data  # returns data collected on the project for saving purpose
+
+    if project_type == "old":
+        data["Project_Type"] = "Old Project"
         project_name = input("What is the name of the project?")
         data["Project_Name"] = project_name  # append project name to dictionary
-        #start_date = input("Enter date project starts")
-        start_hour = int(input("Enter hour project starts"))
-        start_hour_secs = start_hour*3600
-        start_minute = int(input("Enter minute project starts"))
-        start_minute_secs = start_minute*60
-        start_time = start_hour_secs + start_minute_secs
-        #data["Start Time"] = str(start_time)
 
-        stop_hour = float(input("Enter hour project ends"))
-        stop_hour_secs = stop_hour * 3600
-        stop_minute = float(input("Enter minute project ends"))
-        stop_minute_secs = stop_minute * 60
-        stop_time = stop_hour_secs + stop_minute_secs
-        #data["Stop Time"] = str(stop_time)
+        # getting time user started project
+        start_hour = int(input("\nEnter hour project started(24-hour format): "))
+        start_minute = int(input("Enter minute project started: "))
+        start_time_min = start_hour*60 + start_minute  # converts time started to minutes
+        start_time = tt(int(start_hour), int(start_minute))  # converts user input into a time format
+        data["Start_Time"] = start_time
 
+        # getting time user ended project
+        stop_hour = float(input("\nEnter hour project ended(24-hour format): "))
+        stop_minute = float(input("Enter minute project ended: "))
+        stop_time_min = stop_hour * 60 + stop_minute  # converts time stopped to minutes
+        stop_time = tt(int(stop_hour), int(stop_minute))  # converts user input to time format
+        data["Stop_Time"] = stop_time
 
-    # divides time spent(in secs) by number of secs in in hour to get hour equivalent
-    time_spent = round((stop_time - start_time) / 3600, 2)
-    print("\nAwesome! You spent "+str(time_spent)+" hours on the project")  # tells user time spent in hours
-    data["Time_Spent(hours)"] = time_spent  # append time spent to dictionary
+        # divides time spent(in secs) by number of secs in in hour to get hour equivalent
+        time_spent = round((stop_time_min - start_time_min) / 3600, 2)
+        print("\nAwesome! You spent "+str(time_spent)+" hours on the project")  # tells user time spent in hours
+        data["Time_Spent(hours)"] = time_spent  # append time spent to dictionary
 
-    # calculating amount earned on project
-    amount_earned = PAY_PER_HOUR * time_spent
-    print("\nCongratulations! You earned $ " + str(amount_earned) + " in " + str(time_spent) + " hours.")
-    data["Amount_Earned($)"] = amount_earned  # append amount earned to dictionary
-    return data  # returns data collected on the project for saving purpose
+        # calculating amount earned on project
+        amount_earned = PAY_PER_HOUR * time_spent
+        print("\nCongratulations! You earned $" + str(amount_earned) + " in " + str(time_spent) + " hours.")
+        data["Amount_Earned($)"] = amount_earned  # append amount earned to dictionary
+        return data  # returns data collected on the project for saving purpose
 
 
 def save_data(data):
@@ -98,7 +113,7 @@ def save_data(data):
 
     # creating csv file
     with open("time_tracker_data.csv", "a", newline="") as outfile:
-        fieldnames = ["Project_Name", "Start_Time", "Stop_Time", "Time_Spent(hours)", "Amount_Earned($)"]
+        fieldnames = ["Project_Type", "Project_Name", "Start_Time", "Stop_Time", "Time_Spent(hours)", "Amount_Earned($)"]
         writer = csv.DictWriter(outfile, fieldnames=fieldnames)
 
         # reading csv file to extract fieldnames
