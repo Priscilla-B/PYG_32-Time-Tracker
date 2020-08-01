@@ -6,7 +6,8 @@ The user can also choose to enter the time he/she started and ended a project th
 The program then calculates the time the user spent on the project and returns the amount the user has earned working on the project. 
 The project includes a csv file that contains test data collected on the program input and outputs.
 
-To access and contribute to the project, fork the project to your git hub repository, make the changes and create a pull request.
+To access and use the project, clone the project to your local machine and run the time_tracker.py file in your python IDE.
+To contribute to the project, fork the project to your git hub repository, make the changes and create a pull request.
 
 
 File: time_tracker.py
@@ -29,7 +30,12 @@ is for testing purposes only and can be cleared. When running the program, make 
 as it blocks writing permissions. 
 
 The csv file contains columns for the type of project being run(whether an old project or a current project), the times
-the project starts and ends, the hours spent on the project and the 
+the project starts and ends, the hours spent on the project and the amount earned for working on the project.
+
+Every time the project runs, the new data collected is appended to previously collected data.
+
+If the csv filename is changed in the program, a new csv file will be created and only data that is subsequently collected will be saved in that file.
+The previous data collected will still be available in the old csv file.
 
 
 Contributors
