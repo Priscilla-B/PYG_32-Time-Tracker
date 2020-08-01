@@ -74,20 +74,30 @@ def get_data(data):
 
         # getting time user started project
         start_hour = int(input("\nEnter hour project started(24-hour format): "))
+        while start_hour < 0 or start_hour >= 24:
+            start_hour = int(input("Enter hour project started(24-hour format): "))
         start_minute = int(input("Enter minute project started: "))
+        while start_minute < 0 or start_minute >= 60:
+            start_minute = int(input("Enter minute project started: "))
+
         start_time_min = start_hour*60 + start_minute  # converts time started to minutes
         start_time = tt(int(start_hour), int(start_minute))  # converts user input into a time format
         data["Start_Time"] = start_time
 
         # getting time user ended project
         stop_hour = float(input("\nEnter hour project ended(24-hour format): "))
+        while stop_hour < 0 or stop_hour >= 24:
+            stop_hour = int(input("Enter hour project started(24-hour format): "))
         stop_minute = float(input("Enter minute project ended: "))
+        while stop_minute < 0 or stop_minute >= 60:
+            stop_minute = int(input("Enter minute project started: "))
+
         stop_time_min = stop_hour * 60 + stop_minute  # converts time stopped to minutes
         stop_time = tt(int(stop_hour), int(stop_minute))  # converts user input to time format
         data["Stop_Time"] = stop_time
 
         # divides time spent(in secs) by number of secs in in hour to get hour equivalent
-        time_spent = round((stop_time_min - start_time_min) / 3600, 2)
+        time_spent = round((stop_time_min - start_time_min) / 60, 2)
         print("\nAwesome! You spent "+str(time_spent)+" hours on the project")  # tells user time spent in hours
         data["Time_Spent(hours)"] = time_spent  # append time spent to dictionary
 
