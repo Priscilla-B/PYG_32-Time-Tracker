@@ -11,12 +11,6 @@ import time
 import csv
 from datetime import time as tt
 
-# todo: include in readme that csv file should not be open in excel while running the code
-# todo: include in readme that this program requires a python ide or text editor or the python idle to run
-# todo: when entering date, make date project starts optional
-# todo: include a welcome message
-# todo: add that modules are inbuilt and do not need to be downloaded to run the program
-
 PAY_PER_HOUR = 5  # constant(in dollars)
 
 
