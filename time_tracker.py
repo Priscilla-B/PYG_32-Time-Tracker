@@ -30,7 +30,12 @@ def get_data(data):
         or stop a project respectively. Output data is collected on the time spent on project and the amount earned
         within that time.
     """
-    project_type = input("Working on a new project?")
+    # welcome message
+print("-----------------------------------\nWelcome to the PYG-32 Time Tracker\n-----------------------------------")
+name = input("Enter your name: ")
+print("Hello "+name+" Are you working on a new project or do you want to calculate how much you earned on an old project?")
+project_type = input("Enter 'new' for new project and 'old' for old project ")
+   
     if project_type == "Yes":
         project_name = input("What is the name of your project?")
         data["Project_Name"] = project_name  # append project name to dictionary
