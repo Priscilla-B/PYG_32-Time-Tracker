@@ -9,13 +9,10 @@ The program inputs and outputs are initially saved in a dictionary and finally s
 """
 import time
 import csv
-# todo: write a code that excludes the time the person takes to enter the start/stop if they made a mistake initially
-# todo: convert time spent to two decimal places
-# todo: import decimals to format floats to two decimal places
 # todo: include in readme that csv file should not be open in excel while running the code
 # todo: include in readme that this program requires a python ide or text editor or the python idle to run
 
-PAY_PER_HOUR = 5  # constant
+PAY_PER_HOUR = 5  # constant(in dollars)
 
 
 def main():
@@ -53,7 +50,7 @@ def get_data(data):
     data["Stop_Time"] = time.ctime(stop_time)  # append time stopped to dictionary
 
     # divides time spent(in secs) by number of secs in in hour to get hour equivalent
-    time_spent = (stop_time - start_time) / 3600
+    time_spent = round((stop_time - start_time) / 3600, 2)
     print("\nAwesome! You spent "+str(time_spent)+" hours on the project")  # tells user time spent in hours
     data["Time_Spent(hours)"] = time_spent  # append time spent to dictionary
 
